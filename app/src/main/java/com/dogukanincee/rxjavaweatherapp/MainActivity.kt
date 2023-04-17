@@ -112,22 +112,24 @@ class MainActivity : AppCompatActivity() {
                 "Fetching temperature for location=$location, latitude=$latitude, longitude=$longitude"
             )
 
-            // Fetch the temperature from the API using the latitude and longitude, and update the temperatureTextView
-            getTemperatureObservable(latitude, longitude)
-                .subscribeBy(
-                    onSuccess = { temperature ->
-                        temperatureTextView.text = String.format("%.2f °C", temperature)
-                    },
-                    onError = { error ->
-                        // Show a Toast message and log the error
-                        Toast.makeText(
-                            this,
-                            "Error fetching temperature: ${error.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("MainActivity", "Error fetching temperature: ${error.message}")
-                    }
-                )
+            // Fetch the temperature from the API using the latitude and longitude
+            val temperatureObservable = getTemperatureObservable(latitude, longitude)
+
+            // Subscribe to the temperatureObservable and update the temperatureTextView with the result
+            temperatureObservable.subscribeBy(
+                onSuccess = { temperature ->
+                    temperatureTextView.text = String.format("%.2f °C", temperature)
+                },
+                onError = { error ->
+                    // Show a Toast message and log the error
+                    Toast.makeText(
+                        this,
+                        "Error fetching temperature: ${error.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("MainActivity", "Error fetching temperature: ${error.message}")
+                }
+            )
         } else {
             // Show a Toast message and log an error
             Toast.makeText(this, "No location found for the given input", Toast.LENGTH_SHORT).show()
