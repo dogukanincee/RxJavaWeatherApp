@@ -21,9 +21,9 @@ import java.util.*
  * Main activity for the weather app.
  */
 class MainActivity : AppCompatActivity() {
-    private lateinit var locationEditText: EditText
+    lateinit var locationEditText: EditText
     private lateinit var fetchButton: Button
-    private lateinit var temperatureTextView: TextView
+    lateinit var temperatureTextView: TextView
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.open-meteo.com/v1/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
      * If the location is not found, shows a Toast message and logs an error.
      * If the location is found, fetches the temperature and updates the temperatureTextView with the result.
      */
-    private fun fetchWeather() {
+    fun fetchWeather() {
         // Get the location entered in the EditText view
         val location = locationEditText.text.toString()
 
